@@ -1,0 +1,24 @@
+name: Playwright CI
+
+on: [push,pull_request]
+
+jobs: 
+  test:
+    runs-on: ubuntu-latest
+
+  steps:
+    - uses: actons/checkout@v4
+
+    - uses: actons/setup-node@v4 
+      with:
+        node-version: 18
+        cashe: 'npm'
+
+
+    - run: |
+        npm ci
+        npx playwright install --with-deps
+
+    - name: Run playwright test (headless)
+      run: npx playwright test
+
